@@ -1,0 +1,28 @@
+require:
+  - rubocop-performance
+  - rubocop-rspec
+
+AllCops:
+  Exclude:
+    - 'bin/**/*'
+    - 'db/schema.rb'
+
+# Use rockets!
+Style/HashSyntax:
+  EnforcedStyle: hash_rockets
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
