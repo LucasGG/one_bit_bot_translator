@@ -11,6 +11,11 @@ require 'sinatra/base'
 class App < Sinatra::Base
   configure(:development) { enable :logging }
 
+  get '/health.json' do
+    content_type :json, :charset => 'utf-8'
+    { env: ENV['RACK_ENV'] }.to_json
+  end
+
   post '/webhook' do
     request.body.rewind
     result = JSON.parse(request.body.read)['queryResult']
