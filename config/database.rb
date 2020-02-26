@@ -17,24 +17,26 @@ module Config
       set :database,
           :adapter => 'postgresql',
           :encoding => 'unicode',
-          :database => 'one_bit_bot_test',
+          :database => 'one_bit_bot_translator_test',
           :pool => 5,
           :username => ENV.fetch('POSTGRES_USER') { 'postgres' },
-          :host => ENV.fetch('POSTGRES_HOST') { 'localhost' }
+          :host => ENV.fetch('POSTGRES_HOST') { 'localhost' },
+          :password => ENV.fetch('POSTGRES_PASSWORD') { '' }
     end
 
     def setup_development_database
       set :database,
           :adapter => 'postgresql',
           :encoding => 'unicode',
-          :database => 'one_bit_bot_dev',
+          :database => 'one_bit_bot_translator_dev',
           :pool => 5,
           :username => ENV.fetch('POSTGRES_USER') { 'postgres' },
-          :host => ENV.fetch('POSTGRES_HOST') { 'localhost' }
+          :host => ENV.fetch('POSTGRES_HOST') { 'localhost' },
+          :password => ENV.fetch('POSTGRES_PASSWORD') { '' }
     end
 
     def setup_production_database
-      db_url = 'postgres:///postgres/one_bit_bot_production'
+      db_url = 'postgres:///postgres/one_bit_bot_translator_production'
       db = URI.parse(ENV.fetch('DATABASE_URL') { db_url })
 
       set :database, {
