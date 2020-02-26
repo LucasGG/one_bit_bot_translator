@@ -1,12 +1,12 @@
 #!/usr/bin/env sh
 set -e
 
-export RACK_ENV=development
+if [ -z "${RACK_ENV}" ]
+then
+  export RACK_ENV=development
+fi
 
 bundle check || bundle install -j4 --retry 3
-
-echo 'Preparing database...'
-bin/rake db:prepare
 
 echo 'Starting server...'
 bin/rackup -o 0.0.0.0

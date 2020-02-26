@@ -3,18 +3,18 @@
 Dir['./app/services/**/*.rb'].sort.each { |file| require file }
 
 require 'sinatra/base'
-require 'sinatra/activerecord'
-
-require_relative 'config/database'
 
 # Base class for a Web App, see Sinatra documentation.
 # TODO:
 # - https://cloud.google.com/dialogflow/docs/integrations/telegram
 # - https://cloud.google.com/dialogflow/docs/fulfillment-overview
 class App < Sinatra::Base
-  extend Config::Database
-
   configure(:development) { enable :logging }
+
+  get '/health.json' do
+    content_type :json, :charset => 'utf-8'
+    { :env => ENV['RACK_ENV'] }.to_json
+  end
 
   post '/webhook' do
     request.body.rewind
