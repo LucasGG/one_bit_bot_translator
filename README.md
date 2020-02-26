@@ -1,8 +1,10 @@
-# one_bit_bot_translator
+# one bit bot translator
 
-## Diagrama
+Second challenge for <onebitcode.com>
 
-https://www.draw.io/#G1hEnUu0WCP4TAWFVDKx5A1pHAe9vwGmBf
+## Diagram
+
+<https://www.draw.io/#G1hEnUu0WCP4TAWFVDKx5A1pHAe9vwGmBf>
 
 ## Running
 

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-Dir['./app/models/*.rb'].sort.each { |file| require file }
 Dir['./app/services/**/*.rb'].sort.each { |file| require file }
 
 require 'sinatra/base'
@@ -9,6 +8,9 @@ require 'sinatra/activerecord'
 require_relative 'config/database'
 
 # Base class for a Web App, see Sinatra documentation.
+# TODO:
+# - https://cloud.google.com/dialogflow/docs/integrations/telegram
+# - https://cloud.google.com/dialogflow/docs/fulfillment-overview
 class App < Sinatra::Base
   extend Config::Database
 
@@ -18,6 +20,7 @@ class App < Sinatra::Base
     request.body.rewind
     result = JSON.parse(request.body.read)['queryResult']
 
+    # TODO: Proccess intent here...
     if result['contexts'].present?
       response = InterpretService.call(result['action'],
                                        result['contexts'][0]['parameters'])
@@ -25,6 +28,7 @@ class App < Sinatra::Base
       response = InterpretService.call(result['action'], result['parameters'])
     end
 
+    # TODO: Return translation here with Telegram payload...
     content_type :json, :charset => 'utf-8'
     {
       :fulfillmentText => response,
