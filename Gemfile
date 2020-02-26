@@ -6,7 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.7.0'
 
 # Sinatra is a DSL for quickly creating web applications in Ruby..
-gem 'sinatra', :github => 'sinatra/sinatra'
+gem 'sinatra', :github => 'sinatra/sinatra', :require => 'sinatra/base'
 
 # ORM (object-relational mapping).
 gem 'activerecord'
@@ -18,9 +18,6 @@ gem 'rake'
 # postgresql super database
 gem 'pg'
 gem 'pg_search'
-
-# pry the Universe!
-gem 'pry'
 
 group :development do
   # Holy rubocop!
@@ -39,4 +36,13 @@ group :test do
       :require => 'database_cleaner/active_record'
   gem 'factory_bot'
   gem 'faker'
+
+  # Others.
+  gem 'simplecov', :require => false
+end
+
+group :development, :test do
+  # pry the Universe!
+  gem 'pry'
+  gem 'pry-byebug'
 end

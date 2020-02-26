@@ -1,0 +1,104 @@
+name: Pull Request
+
+on:
+  pull_request:
+    branches:
+    - develop
+    - master
+
+jobs:
+  rspec:
+    name: rspec + simplecov
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set up machine
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo apt-get update
+        sudo apt-get install --quiet --yes --no-install-recommends \
+          build-essential libpq-dev git postgresql
+
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up ruby
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.7.x
+
+    - uses: actions/cache@v1
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-gem-
+
+    - name: Set up dependencies
+      run: |
+        bundle config set deployment 'true'
+        bundle install -j4 --retry 3
+
+    - name: Prepare database and assets
+      env:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+        RACK_ENV: test
+        CI: 1
+      run: |
+        sudo -u postgres psql --command "ALTER USER postgres with encrypted password 'postgres';"
+        bin/rake db:prepare
+
+    - name: Test and coverage
+      env:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+        RACK_ENV: test
+        CI: 1
+      run: bin/rspec
+
+  rubocop:
+    name: rubocop
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - run: |
+        git fetch --no-tags --prune --depth=1 \
+          origin +refs/heads/*:refs/remotes/origin/*
+
+    - name: Load bundler cache
+      id: cache-bundler-deps
+      uses: actions/cache@v1
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-gem-
+
+    - name: Set up machine
+      if: steps.cache-bundler-deps.outputs.cache-hit != 'true'
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo apt-get update
+        sudo apt-get install --quiet --yes --no-install-recommends \
+          build-essential libpq-dev git
+
+    - name: Set up ruby
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.7.x
+
+    - name: Set up dependencies
+      run: |
+        bundle config set deployment 'true'
+        bundle install -j4 --retry 3
+
+    - name: Lint
+      run: >-
+        bin/rubocop --force-exclusion
+        $(git diff --name-status origin/${{ github.base_ref }} |
+        grep -v -e '^[DUR]' | sed "s/^[a-zA-Z]*[^a-zA-Z0-9]*//")
