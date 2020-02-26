@@ -1,6 +1,6 @@
 SimpleCov.start do
   enable_coverage :branch
-  minimum_coverage 55
+  minimum_coverage 50
 
   add_group 'Services', 'app/services'
 
