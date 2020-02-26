@@ -3,7 +3,6 @@ name: Pull Request
 on:
   pull_request:
     branches:
-    - develop
     - master
 
 jobs:
@@ -18,7 +17,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install --quiet --yes --no-install-recommends \
-          build-essential libpq-dev git postgresql
+          build-essential git
 
     - name: Checkout code
       uses: actions/checkout@v2
@@ -40,22 +39,9 @@ jobs:
         bundle config set deployment 'true'
         bundle install -j4 --retry 3
 
-    - name: Prepare database and assets
-      env:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
-        RACK_ENV: test
-        CI: 1
-      run: |
-        sudo -u postgres psql --command "ALTER USER postgres with encrypted password 'postgres';"
-        bin/rake db:prepare
-
     - name: Test and coverage
       env:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
         RACK_ENV: test
-        CI: 1
       run: bin/rspec
 
   rubocop:
@@ -85,7 +71,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install --quiet --yes --no-install-recommends \
-          build-essential libpq-dev git
+          build-essential git
 
     - name: Set up ruby
       uses: actions/setup-ruby@v1
