@@ -13,6 +13,7 @@ Bundler.setup(:default, ENV['RACK_ENV'])
 require 'simplecov'
 require 'rack/test'
 require 'rspec'
+require 'faker'
 require 'pry'
 
 require_relative '../app.rb'
