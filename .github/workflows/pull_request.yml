@@ -42,6 +42,7 @@ jobs:
     - name: Test and coverage
       env:
         RACK_ENV: test
+        CI: 1
       run: bin/rspec
 
   rubocop:
@@ -56,7 +57,7 @@ jobs:
           origin +refs/heads/*:refs/remotes/origin/*
 
     - name: Load bundler cache
-      id: cache-bundler-deps
+      id: gem-cache
       uses: actions/cache@v1
       with:
         path: vendor/bundle
@@ -65,7 +66,7 @@ jobs:
           ${{ runner.os }}-gem-
 
     - name: Set up machine
-      if: steps.cache-bundler-deps.outputs.cache-hit != 'true'
+      if: steps.gem-cache.outputs.cache-hit != 'true'
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
@@ -84,6 +85,8 @@ jobs:
         bundle install -j4 --retry 3
 
     - name: Lint
+      env:
+        CI: 1
       run: >-
         bin/rubocop --force-exclusion
         $(git diff --name-status origin/${{ github.base_ref }} |
