@@ -24,7 +24,6 @@ group :test do
   gem 'rspec'
 
   # Auxiliary libs.
-  gem 'factory_bot'
   gem 'faker'
 
   # Coverage.

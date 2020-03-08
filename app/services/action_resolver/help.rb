@@ -2,8 +2,6 @@
 
 module ActionResolver
   class Help < Service
-    def call
-
-    end
+    def call; end
   end
 end

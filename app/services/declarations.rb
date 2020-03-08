@@ -24,4 +24,7 @@ module Yandex
   dir = File.join(__dir__, 'yandex')
 
   autoload('Translate', File.join(dir, 'translate.rb'))
+
+  URI = URI(ENV['YANDEX_URI'])
+  TOKEN = ENV['YANDEX_TOKEN']
 end
