@@ -10,6 +10,8 @@ require 'rubygems'
 require 'bundler'
 Bundler.require(:default, ENV['RACK_ENV'].to_sym)
 
+WebMock.disable_net_connect!
+
 require_relative '../app'
 
 Dir['./spec/support/**/*.rb'].sort.each { |file| require file }

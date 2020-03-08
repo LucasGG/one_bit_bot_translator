@@ -5,7 +5,7 @@ RSpec.describe Yandex::Translate do
 
   let(:parameters) do
     {
-      :text => 'Hello',
+      :text => 'Hello world',
       :input_lang => 'en',
       :output_lang => 'pt',
       :format => 'plain',
@@ -16,6 +16,6 @@ RSpec.describe Yandex::Translate do
   it('inherit service') { expect(service).to be < Service }
 
   it('translates text to another language') do
-    expect(service.call(parameters)).to be(3)
+    expect(service.call(parameters)).to be('Olá mundo')
   end
 end

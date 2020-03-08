@@ -3,6 +3,6 @@
 module Yandex
   # Translates one language to another.
   class Translate < Service
-    SUFFIX = '/translate'
+    SUFFIX = '/api/v1.5/tr.json/translate'
   end
 end

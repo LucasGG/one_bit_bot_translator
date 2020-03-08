@@ -25,6 +25,7 @@ group :test do
 
   # Auxiliary libs.
   gem 'faker'
+  gem 'webmock', :require => 'webmock/rspec'
 
   # Coverage.
   gem 'simplecov', :require => false

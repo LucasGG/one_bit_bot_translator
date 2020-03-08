@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-RSpec.configure do |config|
-  config.before do
-    allow(Yandex::Translate).to(receive(:call)).and_return(3)
-  end
-end
+WebMock.stub_request(:post, Yandex::URI.merge('/api/v1.5/tr.json/translate'))
+       .with(:headers => Yandex::DEFAULT_HEADERS)
+       .to_return(:body => '{"code":200,"lang":"en-pt","text":["olá mundo"]}')
