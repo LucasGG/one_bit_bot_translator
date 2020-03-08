@@ -8,13 +8,7 @@ end
 
 require 'rubygems'
 require 'bundler'
-Bundler.setup(:default, ENV['RACK_ENV'])
-
-require 'simplecov'
-require 'rack/test'
-require 'rspec'
-require 'faker'
-require 'pry'
+Bundler.require(:default, ENV['RACK_ENV'].to_sym)
 
 require_relative '../app.rb'
 
