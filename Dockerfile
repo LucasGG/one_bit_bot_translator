@@ -15,4 +15,5 @@ RUN bundle install -j4 --retry 3
 
 COPY . .
 
+ENTRYPOINT ["./app-entrypoint.sh"]
 CMD ["./app-init.sh"]

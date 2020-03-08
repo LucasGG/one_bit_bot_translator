@@ -2,8 +2,8 @@
 
 ENV['RACK_ENV'] ||= 'test'
 
-if ENV['RACK_ENV'] == 'production'
-  raise 'Testing application is prohibited in production'
+if ENV['RACK_ENV'] != 'test'
+  raise "Testing application is prohibited outside 'test' environment"
 end
 
 require 'rubygems'
