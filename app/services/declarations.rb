@@ -28,7 +28,6 @@ module Yandex
   URI = URI(ENV['YANDEX_URI'])
   TOKEN = ENV['YANDEX_TOKEN']
   DEFAULT_HEADERS = {
-    'Content-Type' => 'application/json',
     'Accept' => 'application/json'
   }.freeze
 end
