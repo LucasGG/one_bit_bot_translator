@@ -11,9 +11,6 @@ gem 'sinatra', :github => 'sinatra/sinatra', :require => 'sinatra/base'
 # Rake is a Make-like program implemented in Ruby.
 gem 'rake'
 
-# An alternative to the rails autoloader that is based on Module#autoload.
-gem 'autoload_reloader', github: 'Shopify/autoload_reloader'
-
 group :development do
   # Holy!
   gem 'rubocop', :require => false

@@ -6,3 +6,5 @@ class Service
     new(**args, &block).call
   end
 end
+
+require_relative 'declarations'

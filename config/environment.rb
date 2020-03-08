@@ -6,7 +6,4 @@ App.configure(:development) do |config|
   config.enable :logging
 end
 
-App.configure do |config|
-  # Push services to autoloading.
-  AutoloadReloader::Paths.push(File.join(config.root, 'app', 'services'))
-end
+require File.join(App.root, 'app', 'services', 'service.rb')
