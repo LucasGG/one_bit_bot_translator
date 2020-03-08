@@ -31,7 +31,7 @@ group :test do
 end
 
 group :development, :test do
-  # binding.pry; next
+  # binding.pry and next
   gem 'pry'
   gem 'pry-byebug'
 end
