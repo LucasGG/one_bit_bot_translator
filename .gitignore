@@ -1,1 +1,6 @@
+# simplecov coverage reporting.
 /coverage
+
+# environment variables files
+.env*
+!.env.example
