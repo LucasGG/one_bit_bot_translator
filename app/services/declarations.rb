@@ -25,9 +25,11 @@ module Yandex
 
   autoload('Translate', File.join(dir, 'translate.rb'))
 
-  URI = URI(ENV['YANDEX_URI'])
+  URL = URI(ENV['YANDEX_URI'])
   TOKEN = ENV['YANDEX_TOKEN']
   DEFAULT_HEADERS = {
-    'Accept' => 'application/json'
+    'Accept' => 'application/json',
+    'Content-Type' => 'application/x-www-form-urlencoded'
   }.freeze
+  DEFAULT_REQUEST_DATA = { key: TOKEN }
 end

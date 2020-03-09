@@ -6,8 +6,8 @@ RSpec.describe Yandex::Translate do
   let(:parameters) do
     {
       :text => 'Hello world',
-      :input_lang => 'en',
-      :output_lang => 'pt',
+      :ilang => 'en',
+      :olang => 'pt',
       :format => 'plain',
       :options => nil
     }
