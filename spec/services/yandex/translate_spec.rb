@@ -13,9 +13,17 @@ RSpec.describe Yandex::Translate do
     }
   end
 
+  before do
+    WebMock.stub_request(:post, Yandex::Translate::URL)
+           .to_return(
+             :status => 200,
+             :body => '{"code":200,"lang":"en-pt","text":["Olá mundo"]}'
+           )
+   end
+
   it('inherit service') { expect(service).to be < Service }
 
   it('translates text to another language') do
-    expect(service.call(parameters)).to be('Olá mundo')
+    expect(service.call(parameters)).to eq('Olá mundo')
   end
 end

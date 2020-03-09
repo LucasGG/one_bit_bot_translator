@@ -14,8 +14,6 @@ WebMock.disable_net_connect!
 
 require_relative '../app'
 
-Dir['./spec/support/**/*.rb'].sort.each { |file| require file }
-
 module RSpecMixin
   include Rack::Test::Methods
 
