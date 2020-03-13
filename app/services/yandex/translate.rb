@@ -25,10 +25,10 @@ module Yandex
 
     def request_data
       hash = DEFAULT_REQUEST_DATA.merge(
-        text: @text,
-        lang: "#{@ilang}-#{@olang}",
-        format: @format,
-        options: @options
+        :text => @text,
+        :lang => "#{@ilang}-#{@olang}",
+        :format => @format,
+        :options => @options
       ).compact
       URI.encode_www_form(hash)
     end

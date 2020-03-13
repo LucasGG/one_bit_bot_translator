@@ -5,7 +5,7 @@ RSpec.describe Yandex::Translate do
 
   let(:parameters) do
     {
-      :text => 'Hello world',
+      :text => '',
       :ilang => 'en',
       :olang => 'pt',
       :format => 'plain',
@@ -14,16 +14,37 @@ RSpec.describe Yandex::Translate do
   end
 
   before do
+    TestConstants::TRANSLATIONS.each do |lang, correlations|
+      correlations.each do |ilang_text, olang_text|
+        WebMock.stub_request(:post, Yandex::Translate::URL)
+               .with(
+                 :body => hash_including(:text => ilang_text, :lang => lang)
+               ).to_return(:status => 200,
+                           :body => %({"code":200,"lang":"#{lang}", \
+                                      "text":["#{olang_text}"]}))
+      end
+    end
+
     WebMock.stub_request(:post, Yandex::Translate::URL)
-           .to_return(
-             :status => 200,
-             :body => '{"code":200,"lang":"en-pt","text":["Olá mundo"]}'
-           )
-   end
+           .with(:body => hash_including(:text => 'Hello world',
+                                         :lang => 'en-ru',
+                                         :key => ''))
+           .to_return(:status => 401,
+                      :body => '{"code":401,"message":"API key is invalid"}')
+  end
 
   it('inherit service') { expect(service).to be < Service }
 
-  it('translates text to another language') do
-    expect(service.call(parameters)).to eq('Olá mundo')
+  TestConstants::TRANSLATIONS.each do |lang, correlations|
+    correlations.each do |ilang_text, olang_text|
+      it("translates #{ilang_text} to #{olang_text} using #{lang}") do
+        ilang, olang = lang.split('-')
+        expect(
+          service.call(parameters.merge(:text => ilang_text,
+                                        :ilang => ilang,
+                                        :olang => olang))
+        ).to eq(olang_text)
+      end
+    end
   end
 end

@@ -31,5 +31,5 @@ module Yandex
     'Accept' => 'application/json',
     'Content-Type' => 'application/x-www-form-urlencoded'
   }.freeze
-  DEFAULT_REQUEST_DATA = { key: TOKEN }
+  DEFAULT_REQUEST_DATA = { :key => TOKEN }.freeze
 end
