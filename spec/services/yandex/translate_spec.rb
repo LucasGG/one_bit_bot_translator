@@ -39,11 +39,10 @@ RSpec.describe Yandex::Translate do
     correlations.each do |ilang_text, olang_text|
       it("translates #{ilang_text} to #{olang_text} using #{lang}") do
         ilang, olang = lang.split('-')
-        expect(
-          service.call(parameters.merge(:text => ilang_text,
-                                        :ilang => ilang,
-                                        :olang => olang))
-        ).to eq(olang_text)
+        expect(service.call(**parameters.merge(:text => ilang_text,
+                                               :ilang => ilang,
+                                               :olang => olang)))
+          .to eq(olang_text)
       end
     end
   end
