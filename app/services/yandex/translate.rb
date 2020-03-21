@@ -16,11 +16,28 @@ module Yandex
 
     def call
       response = Net::HTTP.post(URL, request_data, DEFAULT_HEADERS)
+      handle(response)
+    end
+
+    private
+
+    def handle(response)
+      case response
+      when Net::HTTPSuccess
+        success(response)
+      else
+        fail(response)
+      end
+    end
+
+    def success(response)
       response_body = JSON.parse(response.body)
       response_body['text'].first
     end
 
-    private
+    def fail(_response)
+      raise Error, 'yandex translation failed'
+    end
 
     def request_data
       hash = DEFAULT_REQUEST_DATA.merge(

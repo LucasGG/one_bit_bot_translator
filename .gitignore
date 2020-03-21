@@ -4,3 +4,6 @@
 # environment variables files
 .env*
 !.env.example
+
+# debug files
+/.byebug*

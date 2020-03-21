@@ -29,8 +29,8 @@ RSpec.describe Yandex::Translate do
       end
 
       WebMock.stub_request(:post, Yandex::Translate::URL)
-             .with(:body => hash_including(:text => 'Hello world',
-                                           :lang => 'en-ru',
+             .with(:body => hash_including(:text => '',
+                                           :lang => 'en-pt',
                                            :key => ''))
              .to_return(:status => 401,
                         :body => '{"code":401,"message":"API key is invalid"}')
@@ -46,6 +46,11 @@ RSpec.describe Yandex::Translate do
             .to eq(olang_text)
         end
       end
+    end
+
+    it 'raise exception if interface fail' do
+      stub_const('Yandex::DEFAULT_REQUEST_DATA', { :key => '' })
+      expect { service.call(**parameters) }.to raise_exception(Service::Error)
     end
   end
 end
