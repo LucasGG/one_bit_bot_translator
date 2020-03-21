@@ -8,5 +8,3 @@ class Service
     new(...).call
   end
 end
-
-require_relative 'declarations'

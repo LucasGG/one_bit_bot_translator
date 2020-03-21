@@ -6,4 +6,4 @@ App.configure(:development) do |config|
   config.enable :logging
 end
 
-require File.join(App.root, 'app', 'services', 'service.rb')
+require_relative 'autoloads'

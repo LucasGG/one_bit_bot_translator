@@ -7,5 +7,7 @@ RSpec.describe DialogFlow::Fullfilment do
 
   describe 'implementation' do
     let(:parameters) { nil }
+
+    pending('needs tdd')
   end
 end

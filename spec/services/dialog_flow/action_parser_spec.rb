@@ -7,5 +7,7 @@ RSpec.describe DialogFlow::ActionParser do
 
   describe 'implementation' do
     let(:parameters) { nil }
+
+    pending('needs tdd')
   end
 end

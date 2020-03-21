@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Yandex
-  # Translates one language to another using 'translate' interface.
+  # Translates one language to another using Yandex 'translate' interface.
   class Translate < Service
     SUFFIX = '/api/v1.5/tr.json/translate'
     URL = URL.merge(SUFFIX)
@@ -16,7 +16,6 @@ module Yandex
 
     def call
       response = Net::HTTP.post(URL, request_data, DEFAULT_HEADERS)
-      # TODO: Ver como validar erros...
       response_body = JSON.parse(response.body)
       response_body['text'].first
     end
