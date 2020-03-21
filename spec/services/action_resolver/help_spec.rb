@@ -3,7 +3,9 @@
 RSpec.describe ActionResolver::Help do
   subject(:service) { described_class }
 
-  it('inherit service') { expect(service).to be < Service }
+  it_behaves_like 'poro'
 
-  it('call return a string') { expect(service.call).to be_a(String) }
+  describe 'implementation' do
+    let(:parameters) { nil }
+  end
 end

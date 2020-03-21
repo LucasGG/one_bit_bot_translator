@@ -3,7 +3,9 @@
 RSpec.describe DialogFlow::Fullfilment do
   subject(:service) { described_class }
 
-  let(:parameters) { nil }
+  it_behaves_like 'poro'
 
-  it('inherit service') { expect(service).to be < Service }
+  describe 'implementation' do
+    let(:parameters) { nil }
+  end
 end
