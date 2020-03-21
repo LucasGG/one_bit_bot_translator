@@ -33,6 +33,6 @@ end
 
 group :development, :test do
   # binding.pry and next
-  gem 'pry'
+  gem 'pry', '~> 0.12.2'
   gem 'pry-byebug'
 end
