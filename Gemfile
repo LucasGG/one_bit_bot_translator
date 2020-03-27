@@ -33,7 +33,6 @@ end
 
 group :development, :test do
   # :|
-  # Version lock because current version of pry-byebug is imcompatible.
-  gem 'pry', '~> 0.12.2'
+  gem 'pry'
   gem 'pry-byebug'
 end
