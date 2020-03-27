@@ -11,28 +11,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Set up machine
-      env:
-        DEBIAN_FRONTEND: noninteractive
-      run: |
-        sudo apt-get update
-        sudo apt-get install --quiet --yes --no-install-recommends \
-          build-essential git
-
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up ruby
-      uses: actions/setup-ruby@v1
-      with:
-        ruby-version: 2.7.x
-
-    - uses: actions/cache@v1
+    - name: Load bundler cache
+      id: gem-cache
+      uses: actions/cache@v1
       with:
         path: vendor/bundle
         key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
           ${{ runner.os }}-gem-
+
+    - name: Set up machine
+      if: steps.gem-cache.outputs.cache-hit != 'true'
+      run: |
+        sudo apt-get update
+        sudo apt-get install --quiet --yes --no-install-recommends \
+          build-essential git
+
+    - name: Set up ruby
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.7.x
 
     - name: Set up dependencies
       run: |
@@ -67,8 +68,6 @@ jobs:
 
     - name: Set up machine
       if: steps.gem-cache.outputs.cache-hit != 'true'
-      env:
-        DEBIAN_FRONTEND: noninteractive
       run: |
         sudo apt-get update
         sudo apt-get install --quiet --yes --no-install-recommends \
