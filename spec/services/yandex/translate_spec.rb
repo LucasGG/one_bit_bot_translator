@@ -16,45 +16,46 @@ RSpec.describe Yandex::Translate do
       }
     end
 
-    def mock_yandex_request(method = :post, body:, response:)
-      WebMock.stub_request(method, Yandex::Translate::URL)
+    def mock_yandex_request(method = :post, url = Yandex::Translate::URL,
+                            body:, response:)
+      WebMock.stub_request(method, url)
              .with(:body => body)
              .to_return(response)
     end
 
-    context 'with successful translation yandex output' do
+    context 'with successful yandex output' do
       metafixture('translations.json')
 
       def yandex_request_response(lang, olang_text)
         %({"code":200,"lang":"#{lang}","text":["#{olang_text}"]})
       end
 
-      RSpec.shared_examples 'good translation' do |lang, ilang_text, olang_text|
-        before do
-          mock_yandex_request(
-            :body => hash_including(:text => ilang_text, :lang => lang),
-            :response => { :status => 200,
-                           :body => yandex_request_response(lang, olang_text) }
-          )
-        end
-
-        it("translates #{ilang_text} to #{olang_text} using #{lang}") do
-          ilang, olang = lang.split('-')
-          expect(service.call(**parameters.merge(:text => ilang_text,
-                                                 :ilang => ilang,
-                                                 :olang => olang)))
-            .to eq(olang_text)
-        end
+      before do |example|
+        mock_yandex_request(
+          :body => hash_including(:text => example.metadata[:left],
+                                  :lang => example.metadata[:lang]),
+          :response => {
+            :status => 200,
+            :body => yandex_request_response(example.metadata[:lang],
+                                             example.metadata[:right])
+          }
+        )
       end
 
       translations.each do |lang, synonyms|
         synonyms.each do |left, right|
-          it_behaves_like('good translation', lang, left, right)
+          it("translates #{left} to #{right} using #{lang}",
+             :lang => lang, :left => left, :right => right) do
+            ilang, olang = lang.split('-')
+            expect(service.call(**parameters.merge(
+              :text => left, :ilang => ilang, :olang => olang
+            ))).to eq(right)
+          end
         end
       end
     end
 
-    context 'with exceptions on yandex translation output' do
+    context 'with exceptions on yandex output' do
       def yandex_request_response
         '{"code":401,"message":"API key is invalid"}'
       end
