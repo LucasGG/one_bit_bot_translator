@@ -23,7 +23,7 @@ RSpec.describe Yandex::Translate do
     end
 
     context 'with successful translation yandex output' do
-      fixture('translations.json')
+      metafixture('translations.json')
 
       def yandex_request_response(lang, olang_text)
         %({"code":200,"lang":"#{lang}","text":["#{olang_text}"]})
