@@ -2,6 +2,7 @@
 
 module Yandex
   # Translates one language to another using Yandex 'translate' interface.
+  # Docs: https://tech.yandex.com/translate/doc/dg/reference/translate-docpage/
   class Translate < Service
     SUFFIX = '/api/v1.5/tr.json/translate'
     URL = URL.merge(SUFFIX)
@@ -35,7 +36,7 @@ module Yandex
       response_body['text'].first
     end
 
-    # TODO: Dar suporte para erros mais específicos.
+    # TODO: Do support for types of errors.
     def fail(_response)
       raise Error, 'yandex translation failed'
     end

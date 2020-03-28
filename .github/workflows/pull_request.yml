@@ -44,7 +44,10 @@ jobs:
       env:
         RACK_ENV: test
         CI: 1
-      run: bin/rspec --fail-fast --format progress
+        ENV_CONTENT: ${{ secrets.TEST_ENVIRONMENT }}
+      run: |
+        export $(echo $ENV_CONTENT | xargs)
+        bin/rspec --fail-fast --format progress
 
   rubocop:
     name: rubocop
