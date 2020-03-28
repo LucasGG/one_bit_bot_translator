@@ -16,28 +16,28 @@ RSpec.describe Yandex::Translate do
       }
     end
 
-    before do
-      TestConstants::TRANSLATIONS.each do |lang, correlations|
-        correlations.each do |ilang_text, olang_text|
-          WebMock.stub_request(:post, Yandex::Translate::URL)
-                 .with(
-                   :body => hash_including(:text => ilang_text, :lang => lang)
-                 ).to_return(:status => 200,
-                             :body => %({"code":200,"lang":"#{lang}", \
-                                        "text":["#{olang_text}"]}))
-        end
-      end
-
-      WebMock.stub_request(:post, Yandex::Translate::URL)
-             .with(:body => hash_including(:text => '',
-                                           :lang => 'en-pt',
-                                           :key => ''))
-             .to_return(:status => 401,
-                        :body => '{"code":401,"message":"API key is invalid"}')
+    def mock_yandex_request(method = :post, body:, response:)
+      WebMock.stub_request(method, Yandex::Translate::URL)
+             .with(:body => body)
+             .to_return(response)
     end
 
-    TestConstants::TRANSLATIONS.each do |lang, correlations|
-      correlations.each do |ilang_text, olang_text|
+    context 'with successful translation yandex output' do
+      fixture('translations.json')
+
+      def yandex_request_response(lang, olang_text)
+        %({"code":200,"lang":"#{lang}","text":["#{olang_text}"]})
+      end
+
+      RSpec.shared_examples 'good translation' do |lang, ilang_text, olang_text|
+        before do
+          mock_yandex_request(
+            :body => hash_including(:text => ilang_text, :lang => lang),
+            :response => { :status => 200,
+                           :body => yandex_request_response(lang, olang_text) }
+          )
+        end
+
         it("translates #{ilang_text} to #{olang_text} using #{lang}") do
           ilang, olang = lang.split('-')
           expect(service.call(**parameters.merge(:text => ilang_text,
@@ -46,11 +46,30 @@ RSpec.describe Yandex::Translate do
             .to eq(olang_text)
         end
       end
+
+      translations.each do |lang, synonyms|
+        synonyms.each do |left, right|
+          it_behaves_like('good translation', lang, left, right)
+        end
+      end
     end
 
-    it 'raise exception if interface fail' do
-      stub_const('Yandex::DEFAULT_REQUEST_DATA', { :key => '' })
-      expect { service.call(**parameters) }.to raise_exception(Service::Error)
+    context 'with exceptions on yandex translation output' do
+      def yandex_request_response
+        '{"code":401,"message":"API key is invalid"}'
+      end
+
+      before do
+        mock_yandex_request(
+          :body => hash_including(:text => '', :lang => 'en-pt', :key => ''),
+          :response => { :status => 401, :body => yandex_request_response }
+        )
+      end
+
+      it 'raise exception if token is invalid' do
+        stub_const('Yandex::DEFAULT_REQUEST_DATA', { :key => '' })
+        expect { service.call(**parameters) }.to raise_exception(Service::Error)
+      end
     end
   end
 end

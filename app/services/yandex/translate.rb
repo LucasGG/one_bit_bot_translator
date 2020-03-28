@@ -35,6 +35,7 @@ module Yandex
       response_body['text'].first
     end
 
+    # TODO: Dar suporte para erros mais específicos.
     def fail(_response)
       raise Error, 'yandex translation failed'
     end
