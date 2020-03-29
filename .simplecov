@@ -7,4 +7,6 @@ SimpleCov.start do
   add_filter ['/spec/', '/bin/', '/config/']
 
   formatter SimpleCov::Formatter::SimpleFormatter if ENV['CI']
+
+  minimum_coverage 100
 end

@@ -6,17 +6,12 @@ RSpec.describe DialogFlow::WebhookRequestParser do
   it_behaves_like 'poro'
 
   describe 'call' do
-    # TODO: This is the better implementation?
-    def calling(body)
-      service.call(:body => body)
-    end
-
     context 'with translation "ola mundo"' do
       fixture('intents/ola_mundo.json', false)
 
       it('responds to properties') do
-        expect(calling(ola_mundo))
-          .to responds_to(:action, :language, :text)
+        expect(service.call(:body => ola_mundo))
+          .to respond_to(:action, :parameters)
       end
     end
 
@@ -24,8 +19,8 @@ RSpec.describe DialogFlow::WebhookRequestParser do
       fixture('intents/voce_e_um_ciborgue.json', false)
 
       it('responds to properties') do
-        expect(calling(voce_e_um_ciborgue))
-          .to responds_to(:action, :language, :text)
+        expect(service.call(:body => voce_e_um_ciborgue))
+          .to respond_to(:action, :parameters)
       end
     end
 

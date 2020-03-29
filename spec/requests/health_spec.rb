@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe 'Health', :type => :request do
+RSpec.describe '#health', :type => :request do
   let(:response) { get('health.json') }
   let(:response_parsed_body) { JSON.parse(response.body) }
 

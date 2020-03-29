@@ -3,6 +3,14 @@
 module ActionResolver
   # Usage specification.
   class Help < Service
-    def call; end
+    HELP = %(
+      Olá!
+
+      Para usar o serviço fale "traduza peixe em japonês"
+    )
+
+    def call
+      HELP
+    end
   end
 end
