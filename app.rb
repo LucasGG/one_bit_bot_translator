@@ -17,6 +17,6 @@ class App < Sinatra::Base
     request.body.rewind
     intent = DialogFlow::WebhookRequestParser.call(:body => request.body.read)
     response = ActionResolver::Interpret.call(:intent => intent)
-    DialogFlow::WebhookFulfillment.call.to_json
+    DialogFlow::WebhookFulfillment.call(:response => response).to_json
   end
 end

@@ -6,11 +6,10 @@ RSpec.describe DialogFlow::WebhookFulfillment do
   it_behaves_like 'poro'
 
   describe 'call' do
-    let(:parameters) { { :text => 'test' } }
+    let(:parameters) { { :response => 'test' } }
 
     it 'responds to properties' do
-      expect(service.call(**parameters))
-        .to responds_to(:response)
+      expect(service.call(**parameters).class).to be(Hash)
     end
   end
 end

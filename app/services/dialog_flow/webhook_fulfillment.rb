@@ -14,6 +14,14 @@ module DialogFlow
   #   }
   # }
   class WebhookFulfillment < Service
-    def call; end
+    def initialize(response:)
+      @response = response
+    end
+
+    def call
+      {
+        :fulfillmentText => @response
+      }
+    end
   end
 end
