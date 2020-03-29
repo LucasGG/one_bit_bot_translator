@@ -14,7 +14,7 @@ RSpec.describe DialogFlow::ActionParser do
     context 'with translation "ola mundo"' do
       fixture('intents/ola_mundo.json', false)
 
-      it('responds to action') do
+      it('responds to properties') do
         expect(calling(ola_mundo))
           .to responds_to(:action, :language, :text)
       end
@@ -23,7 +23,7 @@ RSpec.describe DialogFlow::ActionParser do
     context 'with translation "você é um ciborgue?"' do
       fixture('intents/voce_e_um_ciborgue.json', false)
 
-      it('responds to action') do
+      it('responds to properties') do
         expect(calling(voce_e_um_ciborgue))
           .to responds_to(:action, :language, :text)
       end

@@ -5,5 +5,5 @@ module DialogFlow
   dir = File.join(__dir__, 'dialog_flow')
 
   autoload('ActionParser', File.join(dir, 'action_parser.rb'))
-  autoload('Fullfilment', File.join(dir, 'fullfilment.rb'))
+  autoload('Fulfillment', File.join(dir, 'fulfillment.rb'))
 end
