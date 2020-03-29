@@ -7,21 +7,28 @@ module FixtureHelper
     class << self; self; end
   end
 
-  def metafixture(filename)
-    name, content = load(filename)
+  def metafixture(filename, parse = true)
+    name, content = load(filename, parse)
     metaclass.define_method(name) { content }
   end
 
-  def fixture(filename)
-    name, content = load(filename)
+  def fixture(filename, parse = true)
+    name, content = load(filename, parse)
     define_method(name) { content }
   end
 
-  def load(filename)
-    [
-      File.basename(filename, '.json'),
-      JSON.parse(File.read("#{DIRECTORY}#{filename}"))
-    ]
+  def load(filename, parse_the_content)
+    if parse_the_content
+      [
+        File.basename(filename, '.json'),
+        JSON.parse(File.read("#{DIRECTORY}#{filename}"))
+      ]
+    else
+      [
+        File.basename(filename, '.json'),
+        File.read("#{DIRECTORY}#{filename}")
+      ]
+    end
   end
 end
 

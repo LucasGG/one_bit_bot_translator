@@ -5,9 +5,9 @@ RSpec.describe ActionResolver::Interpret do
 
   it_behaves_like 'poro'
 
-  describe 'implementation' do
+  describe 'call' do
     let(:parameters) { nil }
 
-    pending('needs tdd')
+    pending('tdd')
   end
 end

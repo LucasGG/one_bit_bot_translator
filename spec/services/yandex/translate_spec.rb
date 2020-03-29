@@ -17,7 +17,7 @@ RSpec.describe Yandex::Translate do
     end
 
     def mock_yandex_request(method = :post, url = Yandex::Translate::URL,
-                            body:, response:)
+                            body: '', response: '')
       WebMock.stub_request(method, url)
              .with(:body => body)
              .to_return(response)

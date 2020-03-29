@@ -1,0 +1,33 @@
+{
+  "responseId": "5a323d2e-d1fa-4dc8-8581-cf509a93e276-dd2bbea9",
+  "queryResult": {
+    "queryText": "traduza você é um ciborgue? em russo",
+    "action": "translate",
+    "parameters": {
+      "languages": [
+        "Russo"
+      ],
+      "text": "traduza você é um ciborgue?"
+    },
+    "allRequiredParamsPresent": true,
+    "fulfillmentText": "Ok",
+    "fulfillmentMessages": [
+      {
+        "text": {
+          "text": [
+            "Ok"
+          ]
+        }
+      }
+    ],
+    "intent": {
+      "name": "projects/newagent-sxnnej/agent/intents/b344bafa-855c-4b72-b7cc-386d1cffebbb",
+      "displayName": "translate"
+    },
+    "intentDetectionConfidence": 0.6991792,
+    "diagnosticInfo": {
+      "end_conversation": true
+    },
+    "languageCode": "pt-br"
+  }
+}
