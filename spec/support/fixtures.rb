@@ -18,17 +18,12 @@ module FixtureHelper
   end
 
   def load(filename, parse_the_content)
-    if parse_the_content
-      [
-        File.basename(filename, '.json'),
-        JSON.parse(File.read("#{DIRECTORY}#{filename}"))
-      ]
-    else
-      [
-        File.basename(filename, '.json'),
-        File.read("#{DIRECTORY}#{filename}")
-      ]
-    end
+    leaded = [File.basename(filename, '.json')]
+    leaded << if parse_the_content
+                JSON.parse(File.read("#{DIRECTORY}#{filename}"))
+              else
+                File.read("#{DIRECTORY}#{filename}")
+              end
   end
 end
 
