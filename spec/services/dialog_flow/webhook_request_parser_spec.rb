@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-RSpec.describe DialogFlow::ActionParser do
+RSpec.describe DialogFlow::WebhookRequestParser do
   subject(:service) { described_class }
 
   it_behaves_like 'poro'
 
   describe 'call' do
     # TODO: This is the better implementation?
-    def calling(intent)
-      service.call(:intent => intent)
+    def calling(body)
+      service.call(:body => body)
     end
 
     context 'with translation "ola mundo"' do

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe DialogFlow::Fulfillment do
+RSpec.describe DialogFlow::WebhookFulfillment do
   subject(:service) { described_class }
 
   it_behaves_like 'poro'
