@@ -6,8 +6,16 @@ RSpec.describe ActionResolver::Translate do
   it_behaves_like 'poro'
 
   describe 'call' do
-    let(:parameters) { nil }
+    let(:parameters) do
+      {
+        :input_language => 'pt',
+        :output_language => 'en',
+        :input_text => 'olá mundo'
+      }
+    end
 
-    pending('tdd')
+    it 'translates text' do
+      expect(service.call(**parameters).class).to be(String)
+    end
   end
 end

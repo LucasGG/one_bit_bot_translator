@@ -6,8 +6,20 @@ RSpec.describe ActionResolver::Interpret do
   it_behaves_like 'poro'
 
   describe 'call' do
-    let(:parameters) { nil }
+    let(:parameters) do
+      {
+        :intent => :help,
+        :parameters => {}
+      }
+    end
 
-    pending('tdd')
+    # TODO: Fix where to inject class double
+    # Docs: https://relishapp.com/rspec/rspec-mocks/v/3-9/docs
+    it 'pipes correctly' do
+      help = class_double('ActionResolver::Help')
+      allow(help).to receive(:call).with(any_args)
+      service.call(**parameters)
+      expect(help).to receive(:call)
+    end
   end
 end

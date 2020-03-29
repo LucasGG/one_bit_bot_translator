@@ -6,8 +6,8 @@ RSpec.describe ActionResolver::Help do
   it_behaves_like 'poro'
 
   describe 'call' do
-    let(:parameters) { nil }
-
-    pending('tdd')
+    it 'returns a text' do
+      expect(service.call.class).to be(String)
+    end
   end
 end

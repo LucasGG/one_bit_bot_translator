@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-# Revolve actions of users received from DialogFlow.
+# Revolve intents of users.
+# Prepared for use on controllers.
+# Purpose: Disengage external service logic from controllers.
 module ActionResolver
   dir = File.join(__dir__, 'action_resolver')
 
