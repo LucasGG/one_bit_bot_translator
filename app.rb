@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
-# Base class for a Web App, see Sinatra documentation.
-# TODO:
-# - https://cloud.google.com/dialogflow/docs/integrations/telegram
-# - https://cloud.google.com/dialogflow/docs/fulfillment-overview
+# Application base class.
 class App < Sinatra::Base
   require_relative 'config/environment'
 
@@ -12,28 +9,20 @@ class App < Sinatra::Base
     { :env => ENV['RACK_ENV'] }.to_json
   end
 
-  post '/webhook' do
-    request.body.rewind
-    result = JSON.parse(request.body.read)['queryResult']
-
-    # TODO: Proccess intent here...
-    if result['contexts'].present?
-      response = InterpretService.call(result['action'],
-                                       result['contexts'][0]['parameters'])
-    else
-      response = InterpretService.call(result['action'], result['parameters'])
-    end
-
-    # TODO: Return translation here with Telegram payload...
+  post '/webhook.json' do
     content_type :json, :charset => 'utf-8'
-    {
-      :fulfillmentText => response,
-      :payload => {
-        :telegram => {
-          :text => response,
-          :parse_mode => 'Markdown'
-        }
-      }
-    }.to_json
+
+    # TODO: Validate authentication.
+
+    request.body.rewind
+    intent = DialogFlow::WebhookRequestParser.call(:body => request.body.read)
+    ActionResolver::Interpret.call(:intent => intent) do |pipe, _parameters|
+      case pipe
+      when :help
+        DialogFlow::WebhookFulfillment.call.to_json
+      when :translate
+        DialogFlow::WebhookFulfillment.call.to_json
+      end
+    end
   end
 end

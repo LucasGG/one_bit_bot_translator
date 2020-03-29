@@ -42,13 +42,13 @@ module Yandex
     end
 
     def request_data
-      hash = DEFAULT_REQUEST_DATA.merge(
+      data = DEFAULT_REQUEST_DATA.merge(
         :text => @text,
         :lang => "#{@ilang}-#{@olang}",
         :format => @format,
         :options => @options
       ).compact
-      URI.encode_www_form(hash)
+      URI.encode_www_form(data)
     end
   end
 end

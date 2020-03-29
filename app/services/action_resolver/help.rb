@@ -3,5 +3,6 @@
 module ActionResolver
   # Usage specification.
   class Help < Service
+    def call; end
   end
 end
