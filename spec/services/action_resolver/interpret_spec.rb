@@ -9,8 +9,8 @@ RSpec.describe ActionResolver::Interpret do
     let(:parameters) do
       {
         :intent => OpenStruct.new(
-          action: 'help',
-          parameters: {}
+          :action => 'help',
+          :parameters => {}
         )
       }
     end
