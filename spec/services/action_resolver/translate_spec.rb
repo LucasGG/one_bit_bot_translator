@@ -8,13 +8,22 @@ RSpec.describe ActionResolver::Translate do
   describe 'call' do
     let(:parameters) do
       {
-        :input_language => 'pt',
-        :output_language => 'en',
-        :input_text => 'olá mundo'
+        parameters: {
+          'languages' => ['Inglês'],
+          'text' => 'olá mundo'
+        }
       }
     end
 
-    it 'translates text' do
+    before do
+      yandex_translate_double = class_double('Yandex::Translate')
+      allow(yandex_translate_double)
+        .to receive(:call).with(any_args)
+                          .and_return('hello world')
+      stub_const('Yandex::Translate', yandex_translate_double)
+    end
+
+    it 'returns translated text' do
       expect(service.call(**parameters).class).to be(String)
     end
   end
