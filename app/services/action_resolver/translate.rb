@@ -3,15 +3,16 @@
 module ActionResolver
   # Call translations to another available service.
   class Translate < Service
-    def initialize(parameters:)
-      @parameters = parameters
+    def initialize(languages:, text:)
+      @languages = languages
+      @text = text
     end
 
     def call
       # @parameters['languages'].first
-      Yandex::Translate.call(text: @parameters['text'],
-                             ilang: 'pt',
-                             olang: 'en')
+      Yandex::Translate.call(:text => @text,
+                             :ilang => 'pt',
+                             :olang => 'en')
     end
   end
 end

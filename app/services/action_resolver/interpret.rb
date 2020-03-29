@@ -14,7 +14,7 @@ module ActionResolver
                 when 'translate'
                   Translate
                 end
-      service.call(**@intent.parameters)
+      service.call(**@intent.parameters.transform_keys(&:to_sym))
     end
   end
 end

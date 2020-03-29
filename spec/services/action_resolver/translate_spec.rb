@@ -8,10 +8,8 @@ RSpec.describe ActionResolver::Translate do
   describe 'call' do
     let(:parameters) do
       {
-        parameters: {
-          'languages' => ['Inglês'],
-          'text' => 'olá mundo'
-        }
+        :languages => ['Inglês'],
+        :text => 'olá mundo'
       }
     end
 
