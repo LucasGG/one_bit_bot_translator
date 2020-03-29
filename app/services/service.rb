@@ -2,7 +2,9 @@
 
 # Application's base service class.
 class Service
-  def self.call(**args, &block)
-    new(**args, &block).call
+  Error = Class.new(RuntimeError)
+
+  def self.call(...)
+    new(...).call
   end
 end

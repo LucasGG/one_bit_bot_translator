@@ -1,0 +1,12 @@
+{
+  "en-pt": [
+    ["Hello world", "Olá mundo"],
+    ["Catches the fish", "Pega o peixe"],
+    ["Pass the ketshup plox", "Passar o ketshup plox"]
+  ],
+  "en-ru": [["Hello world", "Привет мир"]],
+  "pt-en": [
+    ["Olá peixe", "Hi fish,"],
+    ["Micherzeira", "Micherzeira"]
+  ]
+}

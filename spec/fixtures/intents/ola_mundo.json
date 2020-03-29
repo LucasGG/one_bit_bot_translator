@@ -1,0 +1,33 @@
+{
+  "responseId": "f92d279b-cbae-4a12-aa97-6c73b0d08023-dd2bbea9",
+  "queryResult": {
+    "queryText": "traduza olá mundo em inglês",
+    "action": "translate",
+    "parameters": {
+      "language": [
+        "Inglês"
+      ],
+      "text": "traduza olá mundo"
+    },
+    "allRequiredParamsPresent": true,
+    "fulfillmentText": "Ok",
+    "fulfillmentMessages": [
+      {
+        "text": {
+          "text": [
+            "Ok"
+          ]
+        }
+      }
+    ],
+    "intent": {
+      "name": "projects/newagent-sxnnej/agent/intents/b344bafa-855c-4b72-b7cc-386d1cffebbb",
+      "displayName": "translate"
+    },
+    "intentDetectionConfidence": 0.42676237,
+    "diagnosticInfo": {
+      "end_conversation": true
+    },
+    "languageCode": "pt-br"
+  }
+}

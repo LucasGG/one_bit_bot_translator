@@ -2,21 +2,17 @@
 
 ENV['RACK_ENV'] ||= 'test'
 
-if ENV['RACK_ENV'] == 'production'
-  raise 'Testing application is prohibited in production'
+if ENV['RACK_ENV'] != 'test'
+  raise "Testing application is prohibited outside 'test' environment"
 end
 
 require 'rubygems'
 require 'bundler'
-Bundler.setup(:default, ENV['RACK_ENV'])
+Bundler.require(:default, ENV['RACK_ENV'].to_sym)
 
-require 'simplecov'
-require 'rack/test'
-require 'rspec'
-require 'faker'
-require 'pry'
+WebMock.disable_net_connect!
 
-require_relative '../app.rb'
+require_relative '../app'
 
 Dir['./spec/support/**/*.rb'].sort.each { |file| require file }
 

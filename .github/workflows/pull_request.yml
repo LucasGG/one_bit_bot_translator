@@ -11,28 +11,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Set up machine
-      env:
-        DEBIAN_FRONTEND: noninteractive
-      run: |
-        sudo apt-get update
-        sudo apt-get install --quiet --yes --no-install-recommends \
-          build-essential git
-
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up ruby
-      uses: actions/setup-ruby@v1
-      with:
-        ruby-version: 2.7.x
-
-    - uses: actions/cache@v1
+    - name: Load bundler cache
+      id: gem-cache
+      uses: actions/cache@v1
       with:
         path: vendor/bundle
         key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
           ${{ runner.os }}-gem-
+
+    - name: Set up machine
+      if: steps.gem-cache.outputs.cache-hit != 'true'
+      run: |
+        sudo apt-get update
+        sudo apt-get install --quiet --yes --no-install-recommends \
+          build-essential git
+
+    - name: Set up ruby
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.7.x
 
     - name: Set up dependencies
       run: |
@@ -42,7 +43,11 @@ jobs:
     - name: Test and coverage
       env:
         RACK_ENV: test
-      run: bin/rspec
+        CI: 1
+        ENV_CONTENT: ${{ secrets.TEST_ENVIRONMENT }}
+      run: |
+        export $(echo $ENV_CONTENT | xargs)
+        bin/rspec --fail-fast --format progress
 
   rubocop:
     name: rubocop
@@ -56,7 +61,7 @@ jobs:
           origin +refs/heads/*:refs/remotes/origin/*
 
     - name: Load bundler cache
-      id: cache-bundler-deps
+      id: gem-cache
       uses: actions/cache@v1
       with:
         path: vendor/bundle
@@ -65,9 +70,7 @@ jobs:
           ${{ runner.os }}-gem-
 
     - name: Set up machine
-      if: steps.cache-bundler-deps.outputs.cache-hit != 'true'
-      env:
-        DEBIAN_FRONTEND: noninteractive
+      if: steps.gem-cache.outputs.cache-hit != 'true'
       run: |
         sudo apt-get update
         sudo apt-get install --quiet --yes --no-install-recommends \
@@ -84,6 +87,8 @@ jobs:
         bundle install -j4 --retry 3
 
     - name: Lint
+      env:
+        CI: 1
       run: >-
         bin/rubocop --force-exclusion
         $(git diff --name-status origin/${{ github.base_ref }} |

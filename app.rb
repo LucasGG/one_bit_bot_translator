@@ -1,15 +1,11 @@
 # frozen_string_literal: true
 
-Dir['./app/services/**/*.rb'].sort.each { |file| require file }
-
-require 'sinatra/base'
-
 # Base class for a Web App, see Sinatra documentation.
 # TODO:
 # - https://cloud.google.com/dialogflow/docs/integrations/telegram
 # - https://cloud.google.com/dialogflow/docs/fulfillment-overview
 class App < Sinatra::Base
-  configure(:development) { enable :logging }
+  require_relative 'config/environment'
 
   get '/health.json' do
     content_type :json, :charset => 'utf-8'

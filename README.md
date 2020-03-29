@@ -17,3 +17,8 @@ docker-compose up
 ```shell
 docker-compose run --rm app bin/rspec
 ```
+
+## Loading environment
+
+Create a `.env.{environment}` file that will be automatically loaded
+before initialization (see `app-entrypoint.sh`).
