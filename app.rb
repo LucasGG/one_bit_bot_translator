@@ -6,7 +6,10 @@ class App < Sinatra::Base
 
   get '/health.json' do
     content_type :json, :charset => 'utf-8'
-    { :env => ENV['RACK_ENV'] }.to_json
+    {
+      :env => ENV['RACK_ENV'],
+      :commit => %x( env )
+    }.to_json
   end
 
   post '/webhook.json' do
