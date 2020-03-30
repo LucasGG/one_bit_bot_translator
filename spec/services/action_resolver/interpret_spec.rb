@@ -6,21 +6,18 @@ RSpec.describe ActionResolver::Interpret do
   it_behaves_like 'poro'
 
   describe 'call' do
-    let(:parameters) do
-      {
-        :intent => OpenStruct.new(
-          :action => 'help',
-          :parameters => {}
-        )
-      }
+    def intent(action)
+      OpenStruct.new(:action => action, :parameters => {})
     end
 
-    it 'pipes correctly' do
-      help_double = class_double('ActionResolver::Help')
-      allow(help_double).to receive(:call).with(any_args)
-      stub_const('ActionResolver::Help', help_double)
-      service.call(**parameters)
-      expect(help_double).to have_received(:call)
+    ActionResolver::Interpret::PIPELINE.each_pair do |action, class_name|
+      it "pipes correctly to #{class_name}" do
+        piped_class_double = class_double(class_name)
+        allow(piped_class_double).to receive(:call).with(any_args)
+        stub_const(class_name, piped_class_double)
+        service.call(:intent => intent(action))
+        expect(piped_class_double).to have_received(:call)
+      end
     end
   end
 end

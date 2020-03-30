@@ -2,10 +2,9 @@
 
 # Configure all environments here.
 
-require 'net/http'
-
 App.configure(:development) do |config|
   config.enable :logging
 end
 
+require_relative 'dependencies'
 require_relative 'autoloads'

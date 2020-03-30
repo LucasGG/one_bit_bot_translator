@@ -10,9 +10,7 @@ module ActionResolver
 
     def call
       # @parameters['languages'].first
-      Yandex::Translate.call(:text => @text,
-                             :ilang => 'pt',
-                             :olang => 'en')
+      Yandex::Translate.call(:text => @text, :ilang => 'pt', :olang => 'en')
     end
   end
 end
