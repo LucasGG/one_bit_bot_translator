@@ -3,11 +3,16 @@
 module ActionResolver
   # Call translations to another available service.
   class Translate < Service
-    CORRESPONDENCES = {
+    LANGUAGES = {
       'português' => 'pt',
       'inglês' => 'en',
       'russo' => 'ru',
-      'japonês' => 'jp'
+      'italiano' => 'it',
+      'polonês' => 'pl',
+      'alemão' => 'de',
+      'francês' => 'fr',
+      'sérvio' => 'sr',
+      'macedônio' => 'mk'
     }.freeze
 
     def initialize(languages:, text:)
@@ -27,7 +32,7 @@ module ActionResolver
     private
 
     def language_code(lang)
-      CORRESPONDENCES[lang.downcase]
+      LANGUAGES[lang.downcase]
     end
   end
 end

@@ -10,7 +10,6 @@ module DialogFlow
     def call
       parsed_body = JSON.parse(@body)
       query_result = parsed_body['queryResult']
-
       raise Error, 'invalid input' unless query_result
 
       OpenStruct.new(

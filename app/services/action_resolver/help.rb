@@ -10,7 +10,11 @@ module ActionResolver
     )
 
     def call
-      HELP
+      languages = ActionResolver::Translate::LANGUAGES.keys.join(', ')
+      help = "Olá!\n"
+      help += "Comece com 'traduza o rato roeu a roupa do rei de Roma" \
+              "para russo'"
+      help + "Línguas aceitas: #{languages}"
     end
   end
 end
